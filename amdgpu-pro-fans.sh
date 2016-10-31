@@ -3,7 +3,7 @@
 #  AMDGPU-PRO LINUX UTILITIES SUITE  #
 ######################################
 # Utility Name: AMDGPU-PRO-FANS
-# Version: 0.1.0
+# Version: 0.1.1
 # Version Name: MahiMahi
 # https://github.com/DominiLux/amdgpu-pro-fans
 
@@ -122,7 +122,6 @@ gracefull_error ()
         echo "***************************";
         echo "";
         echo $error;
-        pause;
         stty -echo;
     elif [ "$verbosity" = "1" ] ; then
         # Just Print The Word Error
@@ -180,10 +179,11 @@ set_all_fan_speeds ()
 #################
 
 # This utility requires itself to elevate to the root user.
+echo "Checking for elivated privlidges . . ."
 if [[ $(id -u) -ne 0 ]] ; then
     # We are not the root user yet.  
-    echo "Checking for elivated privlidges . . ."
-    sudo echo ""
+    echo "You did not run as the utility with 'sudo'!"
+    echo "You will be prompted for your sudo password before any changes can be made."
 fi
 set_all_fan_speeds
 if [ "$error" != "" ] ; then
