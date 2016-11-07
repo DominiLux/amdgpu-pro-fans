@@ -14,7 +14,7 @@ This is the first phase in a multi phase project to attempt to create an aticonf
 * chmod +x amdgpu-pro-fans.sh
 
 ## Usage:
-sudo ./amdgpu-pro-fans.sh --speed=(0 - 100)
+sudo ./amdgpu-pro-fans.sh -s [speed 0 - 100]
 
 ## Notes:
-This version defaults to all adapters.  The next flag I will be adding will be the --adapter flag to allow a user to specify any specific number of adapters or all adapters.  I also plan on adding a get temperature feature to it as well.  This is Revision 0.1.0 so it's likely to throw some random errors and things as I have not debugged it much.  I will be moving through the revisions of this project very quickly to have the concepts laid out for the c++ application I mentioned earlier.
+This version defaults to all adapters.  I have coded the parsing of the -a flag so the information is stored if the flag is used but I have not incorporated the code to act on this yet.  I also plan on adding a get temperature feature to it as well.  This is Revision 0.1.3 I have laid out the structure for future revisions and made some major changes to the code. Feel free to fork this and add features that I can merge into the master.
