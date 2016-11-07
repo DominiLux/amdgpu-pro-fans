@@ -1,0 +1,18 @@
+Version 0.1.3
+
+    - Added command line parsing function
+    - Added usage function
+    - Detects the [-s] switch for specifying fan speed in percentages
+    - Get's the [-a] adapter variable from the command line which will be used in other alpha revisions
+
+Version 0.1.2
+
+    - Major improvements to dynamic card detection algorythm
+
+Version 0.1.1
+
+    - Implimented Functions For Portability
+
+Version 0.1.0
+
+    - Initial alpha code upload
