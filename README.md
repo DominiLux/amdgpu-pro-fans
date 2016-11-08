@@ -17,4 +17,6 @@ This is the first phase in a multi phase project to attempt to create an aticonf
 sudo ./amdgpu-pro-fans.sh -s [speed 0 - 100]
 
 ## Notes:
+Only tested on ubuntu 16.04.  Code has been tested for compatibility with R9 series and RX series cards using the AMDGPU-PRO Proprietary driver.  After some additional testing to insure proper funcionality I will push this much needed update to the master.
+
 This version defaults to all adapters.  I have coded the parsing of the -a flag so the information is stored if the flag is used but I have not incorporated the code to act on this yet.  I also plan on adding a get temperature feature to it as well.  This is Revision 0.1.3 I have laid out the structure for future revisions and made some major changes to the code. Feel free to fork this and add features that I can merge into the master.
