@@ -1,3 +1,7 @@
+Version 0.1.4
+    - Added patch to work with R9 and RX Cards
+    - Should be fully supported with latest AMDGPU-PRO driver on ubuntu 16.04.
+
 Version 0.1.3
 
     - Added command line parsing function
