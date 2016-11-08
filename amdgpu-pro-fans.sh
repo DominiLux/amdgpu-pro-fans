@@ -3,7 +3,7 @@
 #  AMDGPU-PRO LINUX UTILITIES SUITE  #
 ######################################
 # Utility Name: AMDGPU-PRO-FANS
-# Version: 0.1.3
+# Version: 0.1.4
 # Version Name: MahiMahi
 # https://github.com/DominiLux/amdgpu-pro-fans
 
@@ -60,7 +60,10 @@ set_all_fan_speeds ()
               else
                   speed=$(( fanmax / 100 ))
                   speed=$(( speed * fanpercent ))
-                  sudo echo "$speed" > $workingdir/pwm1 &>/dev/null
+                  sudo chown $USER $workingdir/pwm1_enable
+                  sudo chown $USER $workingdir/pwm1
+                  sudo echo 1 >> $workingdir/pwm1_enable &>/dev/null
+                  sudo echo "$speed" >> $workingdir/pwm1 &>/dev/null
                   $speedcheck=$(<$workingdir/pwm1)
                   if [ $speed != $speedcheck ] ; then
                        echo "Unable to set fan speed for Card$cardcount!"
