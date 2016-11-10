@@ -1,9 +1,9 @@
-#/bin/bash
-######################################
+#!/usr/bin/env bash
+#####################################
 #  AMDGPU-PRO LINUX UTILITIES SUITE  #
 ######################################
 # Utility Name: AMDGPU-PRO-FANS
-# Version: 0.1.4
+# Version: 0.1.5
 # Version Name: MahiMahi
 # https://github.com/DominiLux/amdgpu-pro-fans
 
@@ -28,10 +28,10 @@
 ############################
 # COMMAND PARSED VARIABLES #
 ############################
-adapter=""
+adapter="all"
 targettemp=""
 fanpercent=""
-
+arguments="$@"
 ##################
 # USAGE FUNCTION #
 ##################
@@ -52,24 +52,24 @@ set_all_fan_speeds ()
     cardcount="0";
     for CurrentCard in  /sys/class/drm/card?/ ; do
          for CurrentMonitor in "$CurrentCard"device/hwmon/hwmon?/ ; do
-              cd $CurrentMonitor &>/dev/null
+              cd $CurrentMonitor # &>/dev/null
               workingdir="`pwd`"
-              fanmax=$(<$workingdir/pwm1_max)
-              if !$fanmax ; then
-                   echo "Unable to determine maximum fan speed for Card$cardcount!"
-              else
-                  speed=$(( fanmax / 100 ))
-                  speed=$(( speed * fanpercent ))
-                  sudo chown $USER $workingdir/pwm1_enable
-                  sudo chown $USER $workingdir/pwm1
-                  sudo echo 1 >> $workingdir/pwm1_enable &>/dev/null
-                  sudo echo "$speed" >> $workingdir/pwm1 &>/dev/null
-                  $speedcheck=$(<$workingdir/pwm1)
-                  if [ $speed != $speedcheck ] ; then
-                       echo "Unable to set fan speed for Card$cardcount!"
+              fanmax=$(head -1 "$workingdir"/pwm1_max)
+              if [ $fanmax -gt 0 ] ; then    
+                  speed=$(( fanmax * fanpercent ))
+                  speed=$(( speed / 100 ))
+                  sudo chown $USER "$workingdir"/pwm1_enable
+                  sudo chown $USER "$workingdir"/pwm1
+                  sudo echo -n "1" >> $workingdir/pwm1_enable # &>/dev/null
+                  sudo echo -n "$speed" >> $workingdir/pwm1 # &>/dev/null
+                  speedresults=$(head -1 "$workingdir"/pwm1)
+                  if [ $(( speedresults - speed )) -gt 6 ] ; then
+                       echo "Error Setting Speed For Card$cardcount!"
                   else
-                       echo "Card$cardcount - Speed Set To $fanpercent %"
+                       echo "Card$cardcount Speed Set To $fanpercent %"
                   fi
+              else
+                  echo "Error: Unable To Determine Maximum Fan Speed For Card$cardcount!"
               fi
          done
          cardcount="$(($cardcount + 1))"
@@ -78,36 +78,27 @@ set_all_fan_speeds ()
 
 set_fans_requested ()
 {
-    # ToDo: Add Functionality For Adapter Variable
-    set_all_fan_speeds
+    if [ "$adapter"="all" ] ; then
+        set_all_fan_speeds
+    fi
 }
+
 
 #################################
 # PARSE COMMAND LINE PARAMETERS #
 #################################
 command_line_parser ()
 {
-    # ADAPTER VARIABLE LOOP
-    while [ $# -gt 0 ]; do
+     parseline=`getopt -s bash -u -o a:s: -n '$0' -- "$arguments"` 
+     eval set -- "$parseline"
+     while true ; do
         case "$1" in
-            -a)  $adapter="$2"; break;;
-        esac
-        shift
+            -a ) adapter="$2" ; shift 2 ;;
+            -s ) fanpercent="$2" ; set_fans_requested ; break ;;
+            --)  break ;;
+            *) usage ; exit 1 ;;
+        esac    
     done
-
-    # COMMAND SWITCH LOOP
-    while [ $# -gt 0 ]; do
-        case "$1" in
-#           -h)  ToDo: Code Help Function And Enable Flag
-#           -l)  ToDo: Code List Adapters Function And Enable Flag
-#           -t)  ToDo: Code Read Temperatures Function And Enable Flag
-#           -f)  ToDo: Code Display Fan Speeds Function And Enable Flag
-            -s)  $fanpercent="$2"; set-fans-command; exit;;
-#           -d)  ToDo: Code Dynamic Temperature Controlling And Enable Flag
-        esac
-        shift
-    done
-    usage
 }
 
 #################
