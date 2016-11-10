@@ -3,9 +3,10 @@
 Author: DominiLux
 License: Apache Version 2.0
 
-This is an alpha release written in unix style bash script.  It is a simple utility that allows you to set the fan speeds for AMD cards that support use the AMD GPU PRO driver.  There are many features I will be adding to this over the coming days and weeks as I use bash script to experiment with direct manipulation of the hardware.
+This is an alpha release written in unix style bash script.  It is a simple utility that allows you to set the fan speeds for AMD cards that support use the AMD GPU PRO driver.  There are many features I will be adding to this over the coming days and weeks.
 
-This is the first phase in a multi phase project to attempt to create an aticonfig/fglrx emulator so that existing applications using old SDK's will still have an interface to connect to the cards for hardware monitoring.  I look forward to developing this for the open sourced community.  The version uploaded right now only sets the fan speeds.  Everything else I already know how to to do.  However, I have to find the time to code it first.
+## Stable Branch
+The current master branch is considered the stable release.  The code in the development branch may not have been fully tested.
 
 ## Installation Instructions:
 * sudo apt-get install git
@@ -16,7 +17,11 @@ This is the first phase in a multi phase project to attempt to create an aticonf
 ## Usage:
 sudo ./amdgpu-pro-fans.sh -s [speed 0 - 100]
 
-## Notes:
-Only tested on ubuntu 16.04.  Code has been tested for compatibility with R9 series and RX series cards using the AMDGPU-PRO Proprietary driver.  After some additional testing to insure proper funcionality I will push this much needed update to the master.
+## Usage Example:
+sudo ./amdgpu-pro-fans.sh s 80
+That would set all of your fan speeds to 80 percent of their maximum speed.  The argument works perfectly as of the current stable release.
 
-This version defaults to all adapters.  I have coded the parsing of the -a flag so the information is stored if the flag is used but I have not incorporated the code to act on this yet.  I also plan on adding a get temperature feature to it as well.  This is Revision 0.1.3 I have laid out the structure for future revisions and made some major changes to the code. Feel free to fork this and add features that I can merge into the master.
+## Notes:
+Fully tested on Ubuntu 16.04 with AMDGPU-PRO proprietary linux drivers.  It is now compatible with all Radeon R8 Series, R9 Series, and RX Series graphics cards.  I will be adding the option to specify a specific adapter soon.  It will be in the works in the development branch and I will merge it here once it's coded, tested, and debugged.
+
+This version defaults to all adapters.
