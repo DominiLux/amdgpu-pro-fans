@@ -1,3 +1,9 @@
+Version 0.1.5
+    - Now works with all AMD Radeon R8, R9, and RX Series Cards
+    - [-s] switch has been fully implmented and debugged to specificy your speed
+    - cross linux distribution compatibility resolved
+    - Code tested and considered stable now
+
 Version 0.1.4
     - Added patch to work with R9 and RX Cards
     - Should be fully supported with latest AMDGPU-PRO driver on ubuntu 16.04.
